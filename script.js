@@ -12,15 +12,21 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
+// let currScore;
+// let activePlayer;
+// let totalScores;
+
 //Starting conditions
-const resetGame = function () {
-  score0Elem.textContent = 0;
-  score1Elem.textContent = 0;
-  diceElem.classList.add('hidden'); //Hide the mid dice
-  let currScore = 0;
-  let activePlayer = 0;
-  const totalScores = [0, 0];
-};
+//const initGame = function () {
+score0Elem.textContent = 0;
+score1Elem.textContent = 0;
+diceElem.classList.add('hidden'); //Hide the mid dice
+let currScore = 0;
+let activePlayer = 0;
+let totalScores = [0, 0];
+//};
+
+// initGame();
 
 //Switch player funcitonality
 const switchPlayer = function () {
@@ -75,6 +81,7 @@ btnHold.addEventListener('click', function () {
     document
       .querySelector(`.player--${activePlayer}`)
       .classList.remove('player--active');
+    diceElem.classList.add('hidden'); //Hide the mid dice
     btnRoll.disabled = true;
     btnRoll.style.cursor = 'not-allowed';
     btnRoll.style.backgroundColor = 'rgba(0, 0, 0, 0.50)';
@@ -85,6 +92,29 @@ btnHold.addEventListener('click', function () {
     //Else switch to next player
     switchPlayer();
   }
+});
+
+// * ---------- New game button functionality * ----------
+btnNew.addEventListener('click', function () {
+  score0Elem.textContent = 0;
+  score1Elem.textContent = 0;
+  currScore = 0;
+  totalScores = [0, 0];
+  //initGame();
+  //activePlayer = activePlayer === 0 ? 1 : 0;
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.remove('player--winner');
+  activePlayer = 0;
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.add('player--active');
+  btnRoll.disabled = false;
+  btnRoll.style.cursor = 'pointer';
+  btnRoll.style.backgroundColor = 'inherit';
+  btnHold.disabled = false;
+  btnHold.style.cursor = 'pointer';
+  btnHold.style.backgroundColor = 'inherit';
 });
 
 // if (activePlayer === 0) {
