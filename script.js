@@ -13,12 +13,14 @@ const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
 //Starting conditions
-score0Elem.textContent = 0;
-score1Elem.textContent = 0;
-diceElem.classList.add('hidden'); //Hide the mid dice
-let currScore = 0;
-let activePlayer = 0;
-let totalScores = [0, 0];
+const resetGame = function () {
+  score0Elem.textContent = 0;
+  score1Elem.textContent = 0;
+  diceElem.classList.add('hidden'); //Hide the mid dice
+  let currScore = 0;
+  let activePlayer = 0;
+  const totalScores = [0, 0];
+};
 
 //Switch player funcitonality
 const switchPlayer = function () {
@@ -58,17 +60,43 @@ btnRoll.addEventListener('click', function () {
 
 // * ---------- Hold button functionality -------------- *
 btnHold.addEventListener('click', function () {
-  if (activePlayer === 0) {
-    totalScores[0] += currScore;
-    console.log(`totalScores of 0 is ${totalScores[0]}`);
-    score0Elem.textContent = totalScores[0];
-    //Switch to next player
-    switchPlayer();
+  // 1. Add current score to active player's score
+  totalScores[activePlayer] += currScore;
+  document.getElementById(`score--${activePlayer}`).textContent =
+    totalScores[activePlayer];
+  //console.log(`totalScores of ${activePlayer} is ${totalScores[0]}`);
+
+  //Check if player's score is >= 100
+  if (totalScores[activePlayer] >= 6) {
+    //Finish the game
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add('player--winner');
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.remove('player--active');
+    btnRoll.disabled = true;
+    btnRoll.style.cursor = 'not-allowed';
+    btnRoll.style.backgroundColor = 'rgba(0, 0, 0, 0.50)';
+    btnHold.disabled = true;
+    btnHold.style.cursor = 'not-allowed';
+    btnHold.style.backgroundColor = 'rgba(0, 0, 0, 0.50)';
   } else {
-    totalScores[1] += currScore;
-    console.log(`totalScores of 1 is ${totalScores[1]}`);
-    score1Elem.textContent = totalScores[1];
-    //Switch to next player
+    //Else switch to next player
     switchPlayer();
   }
 });
+
+// if (activePlayer === 0) {
+//   totalScores[0] += currScore;
+//   console.log(`totalScores of 0 is ${totalScores[0]}`);
+//   score0Elem.textContent = totalScores[0];
+//   //Switch to next player
+//   switchPlayer();
+// } else {
+//   totalScores[1] += currScore;
+//   console.log(`totalScores of 1 is ${totalScores[1]}`);
+//   score1Elem.textContent = totalScores[1];
+//   //Switch to next player
+//   switchPlayer();
+// }
