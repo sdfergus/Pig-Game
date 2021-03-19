@@ -7,16 +7,13 @@ const diceElem = document.querySelector('.dice');
 const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
-const curr0 = document.querySelector('#current--0');
-const curr1 = document.querySelector('#current--1');
-const player1 = document.querySelector('#player--0');
-const player2 = document.querySelector('#player--1');
 
 //Starting conditions
 score0Elem.textContent = 0;
 score1Elem.textContent = 0;
 diceElem.classList.add('hidden'); //Hide the mid dice
-let counter = 0;
+let currScore = 0;
+let activePlayer = 0;
 
 /* ---- Roll Dice functionality ----- */
 btnRoll.addEventListener('click', function () {
@@ -31,11 +28,13 @@ btnRoll.addEventListener('click', function () {
   //3. Check for rolled 1: if true, switch to next player
   if (randomDice !== 1) {
     //Add dice value to current score
-    counter += randomDice;
-    score0Elem.textContent = counter;
+    currScore += randomDice;
+    document.getElementById(`current--${activePlayer}`).textContent = currScore;
+    // curr0Elem.textContent = currScore;
   } else {
     //Switch to next player
-    counter = 0;
-    score0Elem.textContent = counter;
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+    activePlayer = activePlayer === 0 ? 1 : 0;
+    currScore = 0;
   }
 });
