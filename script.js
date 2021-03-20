@@ -12,21 +12,36 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
-// let currScore;
-// let activePlayer;
-// let totalScores;
+let currScore;
+let activePlayer;
+let totalScores;
 
 //Starting conditions
-//const initGame = function () {
-score0Elem.textContent = 0;
-score1Elem.textContent = 0;
-diceElem.classList.add('hidden'); //Hide the mid dice
-let currScore = 0;
-let activePlayer = 0;
-let totalScores = [0, 0];
-//};
+const initGame = function () {
+  currScore = 0;
+  activePlayer = 0;
+  totalScores = [0, 0];
 
-// initGame();
+  score0Elem.textContent = 0;
+  score1Elem.textContent = 0;
+  curr0Elem.textContent = 0;
+  curr1Elem.textContent = 0;
+
+  diceElem.classList.add('hidden'); //Hide the mid dice
+  player0.classList.remove('player--winner');
+  player1.classList.remove('player--winner');
+  player0.classList.add('player--active');
+  player1.classList.remove('player--active');
+
+  btnRoll.disabled = false;
+  btnRoll.style.cursor = 'pointer';
+  btnRoll.style.backgroundColor = 'inherit';
+  btnHold.disabled = false;
+  btnHold.style.cursor = 'pointer';
+  btnHold.style.backgroundColor = 'inherit';
+};
+
+initGame();
 
 //Switch player funcitonality
 const switchPlayer = function () {
@@ -41,7 +56,7 @@ const switchPlayer = function () {
 btnRoll.addEventListener('click', function () {
   //1. Generate a random dice roll
   const randomDice = Math.floor(Math.random() * 6) + 1;
-  console.log(randomDice, `dice-${randomDice}.png`);
+  // console.log(randomDice, `dice-${randomDice}.png`);
 
   //2. Display dice
   diceElem.classList.remove('hidden');
@@ -95,27 +110,16 @@ btnHold.addEventListener('click', function () {
 });
 
 // * ---------- New game button functionality * ----------
-btnNew.addEventListener('click', function () {
-  score0Elem.textContent = 0;
-  score1Elem.textContent = 0;
-  currScore = 0;
-  totalScores = [0, 0];
-  //initGame();
-  //activePlayer = activePlayer === 0 ? 1 : 0;
-  document
-    .querySelector(`.player--${activePlayer}`)
-    .classList.remove('player--winner');
-  activePlayer = 0;
-  document
-    .querySelector(`.player--${activePlayer}`)
-    .classList.add('player--active');
-  btnRoll.disabled = false;
-  btnRoll.style.cursor = 'pointer';
-  btnRoll.style.backgroundColor = 'inherit';
-  btnHold.disabled = false;
-  btnHold.style.cursor = 'pointer';
-  btnHold.style.backgroundColor = 'inherit';
-});
+btnNew.addEventListener('click', initGame);
+
+//Old new game functionality
+// document
+// .querySelector(`.player--${activePlayer}`)
+// .classList.remove('player--winner');
+// activePlayer = 0;
+// document
+// .querySelector(`.player--${activePlayer}`)
+// .classList.add('player--active');
 
 // if (activePlayer === 0) {
 //   totalScores[0] += currScore;
